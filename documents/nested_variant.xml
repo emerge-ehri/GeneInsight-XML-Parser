@@ -1,0 +1,57 @@
+<report>
+
+  <reportVariants>
+    <reportVariant>
+      <reportVariant>
+        <aminoAcidChange>p.Arg97Trp</aminoAcidChange>
+        <aminoAcidChangeType>MISSENSE</aminoAcidChangeType>
+        <chromosome>12</chromosome>
+        <dnaChange>c.289C&gt;T</dnaChange>
+        <dnaChangeType>SUBSTITUTION</dnaChangeType>
+        <externalId>41414</externalId>
+        <geneRegion>Exon 3</geneRegion>
+        <transcriptId>NM_005691.2</transcriptId>
+        <alleleState>
+          <value>Homozygous</value>
+          <codeSystem>LN</codeSystem>
+          <code>LA6705-3</code>
+          <valueSetAbbr>Homozygous</valueSetAbbr>
+        </alleleState>
+        <category>
+          <value>Likely Pathogenic</value>
+          <codeSystem>GILA-GIS-LOCAL</codeSystem>
+          <code>10018-0</code>
+          <valueSetAbbr>Likely Pathogenic</valueSetAbbr>
+        </category>
+        <categoryType>MEDICALLY_SIGNIFICANT</categoryType>
+        <forcedIncidental>false</forcedIncidental>
+        <geneSymbol>ABCC9</geneSymbol>
+        <genomicSource>
+          <value>Germline</value>
+          <codeSystem>LN</codeSystem>
+          <code>LA6683-2</code>
+          <valueSetAbbr>Germline</valueSetAbbr>
+        </genomicSource>
+        <interrogatedButNotFound>false</interrogatedButNotFound>
+        <isSignificant>true</isSignificant>
+        <nestedVariants>
+        
+          <reportVariant>
+            <aminoAcidChange>nested1-p.Arg97Trp</aminoAcidChange>
+            <aminoAcidChangeType>MISSENSE</aminoAcidChangeType>
+            <chromosome>11</chromosome>
+          </reportVariant>
+          <reportVariant>
+            <aminoAcidChange>nested2-p.Arg97Trp</aminoAcidChange>
+            <aminoAcidChangeType>STOP</aminoAcidChangeType>
+            <chromosome>13</chromosome>
+          </reportVariant>
+        
+        
+        
+        </nestedVariants>
+        <notInterpreted>false</notInterpreted>
+      </reportVariant>
+    </reportVariant>
+  </reportVariants>
+</report>

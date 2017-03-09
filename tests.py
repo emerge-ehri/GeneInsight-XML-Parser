@@ -78,23 +78,13 @@ class TestNoTables(unittest.TestCase):
         self.assertTrue(Reports.InterpretedDiseases.__table__.exists(bind=self.engine))
 
 
-class TestMissingValuesInXMLFile(unittest.TestCase):
-    def setUp(self):
-        self.xml_file = 'test_files/sample_report.xml'
-        # delete the database
-        if os.path.exists(SQLite_test_DB): os.remove(SQLite_test_DB)
-        # create the parser for testing
-        self.parser = EmergeXMLParser.XMLParser(db_connection)
-        # create our own engine for test queries
-        self.engine = sqlalchemy.create_engine(db_connection)
-        Session = sessionmaker(bind=self.engine)
-        self.session = Session()
-    
-    def test_something(self):
-        pass
 
 
+#class TestMissingValuesInXMLFile(unittest.TestCase):
+# this is already done by the next test since multiple_children has many missing values
 
+
+# Test to see if each child creates a row in the corresponding table
 class TestMultipleChildren(unittest.TestCase):
     def setUp(self):
         self.xml_file = 'test_files/multiple_children.xml'
@@ -119,6 +109,8 @@ class TestMultipleChildren(unittest.TestCase):
         
         
 
+
+# I ended up adding try/except in parse_xml_file.py to test for bad xml
 # this is probably a dumb test since I'm really just testing the xml module
 # but, hey, it helped me figure out xml parse errors
 class TestMalformedXML(unittest.TestCase):

@@ -11,10 +11,10 @@ if __name__ == "__main__":
     Config.read("config.ini")
     db_connection = Config.get("Database", "Connection")
     
-    drop_tables = False
+    drop_first = False
     if (len(sys.argv) > 1 and sys.argv[1] == 'drop'):
-        drop_tables = True
+        drop_first = True
     
 
     parser = EmergeXMLParser.XMLParser(db_connection)
-    parser.create_tables(drop_tables)
+    parser.create_tables(drop_first)
