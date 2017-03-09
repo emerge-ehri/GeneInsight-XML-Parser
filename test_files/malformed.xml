@@ -1,0 +1,13 @@
+<report>
+  <caseType>CLINICAL</caseType>
+  <editedBy>
+    <value>Sandy Aronson</value>
+    <onDate>2016-11-24 17:41:07.477 UTC</onDate>
+  </editedBy>
+  <genomicSource>
+    <value>Germline</value>
+    <codeSystem>LN</codeSystem>
+    <code>LA6683-2</code>
+    <valueSetAbbr>Germline</valueSetAbbr>
+<!--  </genomicSource>  -->
+</report>

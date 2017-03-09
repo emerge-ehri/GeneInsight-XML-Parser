@@ -1,0 +1,73 @@
+<report>
+  <interpretedDiseases>
+    <disease>
+      <reportDisease>
+        <diseaseCode>
+          <value>Interpreted-FirstChild</value>
+        </diseaseCode>
+      </reportDisease>
+    </disease>
+    <disease>
+      <reportDisease>
+        <diseaseCode>
+          <value>Interpreted-SecondChild</value>
+        </diseaseCode>
+      </reportDisease>
+    </disease>
+  </interpretedDiseases>
+  
+
+  <patientDiseases>
+    <disease>
+      <reportDisease>
+        <name>patient-disease-first-child</name>
+      </reportDisease>
+    </disease>
+    <disease>
+      <reportDisease>
+        <name>patient-disease-second-child</name>
+      </reportDisease>
+    </disease>
+  </patientDiseases>
+
+
+  <reportAssays>
+    <reportAssay>
+      <reoprtAssay>
+        <assayVersionExternalId>report-assay-first-child</assayVersionExternalId>
+      </reoprtAssay>
+    </reportAssay>
+    <reportAssay>
+      <reoprtAssay>
+        <assayVersionExternalId>report-assay-second-child</assayVersionExternalId>
+      </reoprtAssay>
+    </reportAssay>
+  </reportAssays>
+
+  <reportVariants>
+    <reportVariant>
+      <reportVariant>
+        <aminoAcidChange>report-var-first-child</aminoAcidChange>
+      </reportVariant>
+      <reportVariant>
+        <aminoAcidChange>report-var-second-child</aminoAcidChange>
+      </reportVariant>
+    </reportVariant>
+  </reportVariants>
+  
+  <specimens>
+    <specimen>
+      <specimen>
+        <description>specimen-first-child</description>
+      </specimen>
+    </specimen>
+    <specimen>
+        <description>specimen-second-child</description>
+    </specimen>
+  </specimens>
+  
+  <physicians>
+    <physician>Joe Doctor</physician>
+    <physician>Jane Doctor</physician>
+  </physicians>
+</report>
