@@ -28,6 +28,11 @@
         <name>patient-disease-second-child</name>
       </reportDisease>
     </disease>
+    <disease>
+      <reportDisease>
+        <name>patient-disease-third-child</name>
+      </reportDisease>
+    </disease>
   </patientDiseases>
 
 
@@ -49,9 +54,9 @@
       <reportVariant>
         <aminoAcidChange>report-var-first-child</aminoAcidChange>
       </reportVariant>
-      <reportVariant>
+    </reportVariant>
+    <reportVariant>
         <aminoAcidChange>report-var-second-child</aminoAcidChange>
-      </reportVariant>
     </reportVariant>
   </reportVariants>
   

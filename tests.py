@@ -97,7 +97,7 @@ class TestMissingValuesInXMLFile(unittest.TestCase):
 
 class TestMultipleChildren(unittest.TestCase):
     def setUp(self):
-        self.xml_file = 'test_files/sample_report.xml'
+        self.xml_file = 'test_files/multiple_children.xml'
         # delete the database
         if os.path.exists(SQLite_test_DB): os.remove(SQLite_test_DB)
         # create the parser for testing
@@ -106,7 +106,17 @@ class TestMultipleChildren(unittest.TestCase):
         self.engine = sqlalchemy.create_engine(db_connection)
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
-    def test_the_tables_can_have_multiple_children:
+    def test_the_tables_can_have_multiple_children(self):
+        self.parser.parse(self.xml_file)
+        self.assertEqual(self.session.query(Reports.Report).count(), 1)
+        self.assertEqual(self.session.query(Reports.InterpretedDiseases).count(), 2)
+        self.assertEqual(self.session.query(Reports.PatientDiseases).count(), 3)
+        self.assertEqual(self.session.query(Reports.ReportAssays).count(), 2)
+        self.assertEqual(self.session.query(Reports.Physicians).count(), 2)
+        self.assertEqual(self.session.query(Reports.ReportVariants).count(), 2)
+        self.assertEqual(self.session.query(Reports.NestedVariants).count(), 0)
+        self.assertEqual(self.session.query(Reports.Specimens).count(), 2)
+        
         
 
 # this is probably a dumb test since I'm really just testing the xml module

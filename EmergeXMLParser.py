@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import xml.etree.ElementTree as ET
 import sys, ConfigParser, pyodbc, datetime
-import Reports
+from Reports import *
 
 # In order to get pyodbc to work on mac, you must install unixodbc and freetds:  
 # brew install unixodbc
@@ -16,31 +16,20 @@ import Reports
 
 
 class XMLParser:
+    tables = [InterpretedDiseases, PatientDiseases, ReportAssays, ReportVariants, 
+                 NestedVariants, Specimens, Physicians, Report]
+                 
     def __init__(self, db_connection):
         self.db_connection = db_connection
         self.engine = sqlalchemy.create_engine(self.db_connection)
         
-    
     def create_tables(self, drop_tables):
+        
         if (drop_tables):
             print 'Dropping and creating tables.'
-            Reports.InterpretedDiseases.__table__.drop(bind=self.engine, checkfirst=True)
-            Reports.PatientDiseases.__table__.drop(bind=self.engine, checkfirst=True)
-            Reports.ReportAssays.__table__.drop(bind=self.engine, checkfirst=True)
-            Reports.ReportVariants.__table__.drop(bind=self.engine, checkfirst=True)
-            Reports.NestedVariants.__table__.drop(bind=self.engine, checkfirst=True)
-            Reports.Specimens.__table__.drop(bind=self.engine, checkfirst=True)
-            Reports.Physicians.__table__.drop(bind=self.engine, checkfirst=True)
-            Reports.Report.__table__.drop(bind=self.engine, checkfirst=True)
+            self.drop(self.engine, self.tables)
 
-        Reports.Report.__table__.create(bind=self.engine, checkfirst=True)
-        Reports.InterpretedDiseases.__table__.create(bind=self.engine, checkfirst=True)
-        Reports.PatientDiseases.__table__.create(bind=self.engine, checkfirst=True)
-        Reports.ReportAssays.__table__.create(bind=self.engine, checkfirst=True)
-        Reports.Physicians.__table__.create(bind=self.engine, checkfirst=True)
-        Reports.ReportVariants.__table__.create(bind=self.engine, checkfirst=True)
-        Reports.NestedVariants.__table__.create(bind=self.engine, checkfirst=True)
-        Reports.Specimens.__table__.create(bind=self.engine, checkfirst=True)
+        self.create(self.engine, self.tables)
         
     
     
@@ -48,13 +37,13 @@ class XMLParser:
         Session = sessionmaker(bind=self.engine)
         session = Session()
         
-        if not ( Reports.Report.__table__.exists(bind=self.engine) and
-                 Reports.InterpretedDiseases.__table__.exists(bind=self.engine) and
-                 Reports.PatientDiseases.__table__.exists(bind=self.engine) and
-                 Reports.ReportAssays.__table__.exists(bind=self.engine) and
-                 Reports.ReportVariants.__table__.exists(bind=self.engine) and
-                 Reports.NestedVariants.__table__.exists(bind=self.engine) and
-                 Reports.Specimens.__table__.exists(bind=self.engine) ):
+        if not ( Report.__table__.exists(bind=self.engine) and
+                 InterpretedDiseases.__table__.exists(bind=self.engine) and
+                 PatientDiseases.__table__.exists(bind=self.engine) and
+                 ReportAssays.__table__.exists(bind=self.engine) and
+                 ReportVariants.__table__.exists(bind=self.engine) and
+                 NestedVariants.__table__.exists(bind=self.engine) and
+                 Specimens.__table__.exists(bind=self.engine) ):
             self.create_tables(False)
             #raise sqlalchemy.exc.SQLAlchemyError(
             #    'One or more tables were not found.  Use create_tables.py script to create tables before parsing XML files.')
@@ -64,7 +53,7 @@ class XMLParser:
         root = tree.getroot()
 
         # Report Table
-        report = Reports.Report(
+        report = Report(
             reportIdentifier             = self.getValue(root, './reportIdentifier'), 
             reportDocType                = self.getValue(root, './reportDocType'),
         #   reportDoc                    = self.getValue(root, 'reportDoc'),  # this is the base64 PDF file
@@ -112,7 +101,7 @@ class XMLParser:
 
         # Interpreted Diseases Table
         for disease in root.findall('./interpretedDiseases/disease'):
-            interpreted_diseases =  Reports.InterpretedDiseases (
+            interpreted_diseases =  InterpretedDiseases (
                 report_id                = report.report_id,
                 interpreted_disease      = self.getValue(disease, './reportDisease/diseaseCode/value'),
                 codeSystem               = self.getValue(disease, './reportDisease/diseaseCode/codeSystem'),
@@ -125,7 +114,7 @@ class XMLParser:
 
         # Patient Diseases Table
         for disease in root.findall('./patientDiseases/disease'):            
-            patient_diseases =  Reports.PatientDiseases (
+            patient_diseases =  PatientDiseases (
                 report_id                = report.report_id,
                 patient_disease          = self.getValue(disease, './reportDisease/diseaseCode/value'),
                 codeSystem               = self.getValue(disease, './reportDisease/diseaseCode/codeSystem'),
@@ -137,7 +126,7 @@ class XMLParser:
             session.add(patient_diseases)
 
         for phys in root.findall('./physicians/physician'):
-            physicians =  Reports.Physicians (
+            physicians =  Physicians (
                 report_id                = report.report_id,
                 physician                = self.getValue(phys, '.'),
             )
@@ -145,7 +134,7 @@ class XMLParser:
         
         # Report Assays Table
         for assay in root.findall('./reportAssays/reportAssay'):
-            report_assay = Reports.ReportAssays (
+            report_assay = ReportAssays (
                 report_id                = report.report_id,
                 assayVersionExternalId   = self.getValue(assay, './/assayVersionExternalId'),
                 known                    = self.getValue(assay, './/known'),
@@ -157,7 +146,7 @@ class XMLParser:
 
         # Report Variants Table
         for variant in root.findall('./reportVariants/reportVariant'):
-            report_variant = Reports.ReportVariants (
+            report_variant = ReportVariants (
                 report_id                = report.report_id,
                 aminoAcidChange          = self.getValue(variant, './/aminoAcidChange'),
                 aminoAcidChangeType      = self.getValue(variant, './/aminoAcidChangeType'),
@@ -191,7 +180,7 @@ class XMLParser:
 
         # Nested Variants Table
         for variant in root.findall('./reportVariants/reportVariant/nestedVariants'):
-            nested_variant = Reports.NestedVariants (
+            nested_variant = NestedVariants (
                 report_id                = report.report_id,
                 aminoAcidChange          = self.getValue(variant, './/aminoAcidChange'),
                 aminoAcidChangeType      = self.getValue(variant, './/aminoAcidChangeType'),
@@ -225,7 +214,7 @@ class XMLParser:
 
         # Specimens Table
         for specimen in root.findall('./specimens/specimen'):
-            specimens = Reports.Specimens (
+            specimens = Specimens (
                 report_id       = report.report_id, 
                 collectionDate  = self.getDate(specimen, './/collectionDate'),
                 receivedDate    = self.getDate(specimen, './/receivedDate'),
@@ -240,6 +229,9 @@ class XMLParser:
             session.add(specimens)
         session.commit()
         
+
+
+ 
         
     def getValue(self, elem, xpath):
         value = None
@@ -253,10 +245,18 @@ class XMLParser:
     # Only the date (not the time) is used
     def getDate(self, elem, xpath):
         date = None
-        str = elem.find(xpath).text
+        str = elem.find(xpath)
         if str is not None:
-            date = datetime.datetime.strptime(str.split(" ")[0], "%Y-%m-%d").date()
+            date = datetime.datetime.strptime(str.text.split(" ")[0], "%Y-%m-%d").date()
         return date
+        
+    def drop(self, engine, tables):
+        for table in tables:
+            table.__table__.drop(bind=engine, checkfirst=True)
+            
+    def create(self, engine, tables):
+        for table in tables:
+            table.__table__.create(bind=engine, checkfirst=True)
         
  
             
