@@ -48,3 +48,6 @@ the parser on your xml files.
 * An easy way to test without having to connect to a SQL database is to use
   SQLite.  The default connection in the config_example.ini file is set to 
   `sqlite:///my_database.db` which will create a database file in the current directory.
+
+<br><br><br><br>
+*This research project was supported by the National Human Genome Research Institute, National Institutes of Health, through Grant U01HG008680. The content is solely the responsibility of the authors and does not necessarily represent the official views of the NIH.*
